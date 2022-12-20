@@ -25,6 +25,17 @@ class kalman_filter():
         self._x.reshape((1, 1))
 
         for i in range(1):
-            pass
-        pass
+            H = np.array([1]).reshape((1, 1))
+            z = np.array([input_1]) # if i == 0 else np.array([input_2])
+            R = np.array([input_1_variance]) # if i == 0 else np.array([input_2_variance])
+            y = z - H.dot(self._x)
+            S = H.dot(self._P).dot(H.T) + R
+            K = self._P.dot(H.T).dot(np.linalg.inv(S))
+            new_x = self._x + K.dot(y)
+            new_P = (np.eye(3) - K.dot(H)).dot(self._P)
+
+            self._P = new_P
+            self._x = new_x
+
+        #return self._x, self._P
 
