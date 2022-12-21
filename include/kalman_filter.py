@@ -3,13 +3,11 @@ import numpy as np
 std_pos = 91.6/200
 std_acc = 0.22/200
 
-class kalman_filter():
+class kalman_filter:
     def __init__(self, init_x: float, x_variance: float) -> None:
-
         self._x = np.array([init_x])
         self._x_variance = x_variance
         self._P = np.eye(1)
-        pass
 
     def predict(self, dt: float) -> None:
         A = np.array([1])
@@ -30,12 +28,18 @@ class kalman_filter():
             R = np.array([input_1_variance]) # if i == 0 else np.array([input_2_variance])
             y = z - H.dot(self._x)
             S = H.dot(self._P).dot(H.T) + R
-            K = self._P.dot(H.T).dot(np.linalg.inv(S))
-            new_x = self._x + K.dot(y)
-            new_P = (np.eye(3) - K.dot(H)).dot(self._P)
+            K = self._P.dot(H.T).dot(S)
+            new_x = self._x + K * y
+            new_P = (np.eye(1) - K * H) * self._P
 
             self._P = new_P
             self._x = new_x
 
         #return self._x, self._P
 
+    @property
+    def state(self) -> np.array:
+        return self._x
+
+    def prop(self) -> np.array:
+        return self._P
