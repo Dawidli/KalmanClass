@@ -10,7 +10,7 @@ measured_x = []
 measured_v = []
 previous_time = 0
 sensor_values = [1.0, 0.4, 0.1]
-standard_deviation = [0.1, 0.1, 0.1]
+standard_deviation = [0.01, 0.01, 0.01]
 kf = kalman_filter(sensor_variance=standard_deviation)
 
 
@@ -35,7 +35,8 @@ def estimate(sens_val: list, std_dev: list):
 
 if __name__ == "__main__":
     for i in range(500):
-        test_sens_pos = random.triangular(1, 4) if i < 250 else random.triangular(4, 6)
+        test_sens_pos = random.triangular(1+i, 4+i) if i < 250 else random.triangular(4, 6)
+        #test_sens_pos = random.triangular(1, 4) if i != 250 else random.triangular(4+i, 6+i)
         test_sens_vel = random.triangular(1, 2) if i < 250 else random.triangular(3, 4)
         test_sens_acc = random.triangular(0.7, 1.3) if i < 250 else random.triangular(1.3, 1.6)
         sensor_values[0] = test_sens_pos
@@ -54,9 +55,9 @@ if __name__ == "__main__":
     plt.plot(measured_x, 'b', label='Measured p')
     plt.plot(measured_v, "g", label="Measured v")
     plt.plot(predicted_x, 'r', label='Predicted x')
-    plt.plot(predicted_v, 'r', label='Predicted v')
+    plt.plot(predicted_v, 'black', label='Predicted v')
     plt.grid(True)
-    plt.ylim(0, 7)
+    #plt.ylim(0, 7)
     plt.xlabel("Position")
     plt.legend(loc='lower right')
     plt.tight_layout()

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class kalman_filter:
     def __init__(self, sensor_variance: list) -> None:
         self._size = len(sensor_variance)
@@ -24,7 +23,7 @@ class kalman_filter:
             y = z - H.dot(self._x)
             S = H.dot(self._P).dot(H.T) + R
 
-            K = self._P.dot(H.T).dot(S)
+            K = self._P.dot(H.T).dot(np.linalg.inv(S))
             new_x = self._x + K * y
             new_P = (np.eye(size) - K * H) * self._P
 
