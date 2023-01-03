@@ -1,11 +1,10 @@
 import numpy as np
 
 x = np.array([2, 3, 4])
-x2 = x.reshape(3, 1)
-ones = np.ones(len(x)**2)
-ones = ones.reshape(len(x), len(x))
-print(x)
 
-
-
+Q = np.array([[x[0]**2,  x[0]*x[1], x[0]*x[2]],
+             [x[0]*x[1], x[1]**2,   x[1]*x[2]],
+             [x[0]*x[2], x[2]*x[1], x[2]**2]])
+Q2 = np.cov(x)
+print(Q, Q2)
 

@@ -10,7 +10,7 @@ measured_x = []
 measured_v = []
 previous_time = 0
 sensor_values = [1.0, 0.4, 0.1]
-standard_deviation = [0.01, 0.01, 0.01]
+standard_deviation = [0.1, 0.1, 0.1]
 kf = kalman_filter(sensor_variance=standard_deviation)
 
 
